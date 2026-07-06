@@ -259,54 +259,27 @@ section{padding:64px 0}
 .price-cta.full{background:linear-gradient(90deg,var(--orange),var(--orange-hover));color:#fff;box-shadow:0 8px 20px var(--orange-glow)}
 .pay-info{text-align:center;color:var(--text-secondary);margin-top:18px;font-size:13px}
 
-/* Carousel with Navigation Arrows */
-.carousel-wrapper-outer {
-  position: relative;
-  max-width: 320px;
+/* App Video Presentation */
+.app-video-container {
+  width: 100%;
+  max-width: 800px;
   margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  border: 1px solid var(--border);
+  background: #000000;
 }
-.carousel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 20px;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior:smooth}
-.carousel::-webkit-scrollbar{display:none}
-.slide{flex:0 0 100%;scroll-snap-align:start;background:var(--bg-surface);border:1px solid var(--border);border-radius:24px;overflow:hidden;box-shadow:var(--shadow-lg);display:flex;flex-direction:column}
-.slide img{aspect-ratio:9/16;object-fit:cover;width:100%}
-.slide .sb{padding:18px;text-align:center;border-top:1px solid var(--border)}
-.slide h3{font-size:15px;font-weight:800;color:#ffffff;margin-bottom:6px}
-.slide p{font-size:13px;color:var(--text-secondary);margin:0}
-.carousel-intro{text-align:center;color:var(--text-secondary);max-width:680px;margin:0 auto 24px}
-
-.carousel-btn {
-  position: absolute;
-  top: 40%;
-  transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: rgba(10, 10, 12, 0.9);
-  border: 1px solid var(--orange);
-  color: var(--orange);
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 10;
-  box-shadow: 0 4px 15px rgba(232, 78, 27, 0.25);
-  transition: all 0.2s ease;
+.app-video {
+  width: 100%;
+  height: auto;
+  display: block;
 }
-.carousel-btn:hover {
-  background: var(--orange);
-  color: #fff;
-  box-shadow: 0 4px 20px rgba(232, 78, 27, 0.5);
-}
-.carousel-btn.prev {
-  left: -60px;
-}
-.carousel-btn.next {
-  right: -60px;
-}
-@media (max-width: 480px) {
-  .carousel-btn.prev { left: -12px; }
-  .carousel-btn.next { right: -12px; }
+.carousel-intro {
+  text-align: center;
+  color: var(--text-secondary);
+  max-width: 680px;
+  margin: 0 auto 24px;
 }
 
 
@@ -645,17 +618,11 @@ footer{padding:30px 16px;text-align:center;color:var(--text-secondary);font-size
     </div>
     <p class="carousel-intro">Real drills from the app with professional diagrams, detailed explanations and dynamic videos.</p>
     
-    <div class="carousel-wrapper-outer">
-      <button class="carousel-btn prev" id="slideLeft" aria-label="Previous">&#8249;</button>
-      <div class="carousel" id="carousel">
-        <div class="slide"><img src="images/members_shooting.png" alt="Shooting Area" loading="lazy" /><div class="sb"><h3>Shooting Area — Inside the App</h3><p>Interactive training video and detailed drill guide.</p></div></div>
-        <div class="slide"><img src="images/members_defense.png" alt="Defense Area" loading="lazy" /><div class="sb"><h3>Defense Area — Inside the App</h3><p>Defensive positioning and stance routines in video.</p></div></div>
-        <div class="slide"><img src="images/members_passing.png" alt="Passing Area" loading="lazy" /><div class="sb"><h3>Passing Area — Inside the App</h3><p>Practical demonstration of different types of passes on court.</p></div></div>
-        <div class="slide"><img src="images/members_dribbling.png" alt="Dribbling Area" loading="lazy" /><div class="sb"><h3>Dribbling Area — Inside the App</h3><p>Dynamic handling and ball control drills.</p></div></div>
-        <div class="slide"><img src="images/members_agility.png" alt="Agility Area" loading="lazy" /><div class="sb"><h3>Agility Area — Inside the App</h3><p>Ladder coordination and reaction speed.</p></div></div>
-        <div class="slide"><img src="images/members_conditioning.png" alt="Strength & Conditioning" loading="lazy" /><div class="sb"><h3>Strength & Conditioning — Inside the App</h3><p>Circuits and drills for vertical jump and explosive power.</p></div></div>
-      </div>
-      <button class="carousel-btn next" id="slideRight" aria-label="Next">&#8250;</button>
+    <div class="app-video-container">
+      <video class="app-video" controls playsinline poster="images/hero_en.jpg">
+        <source src="videos/video_ingles_pg.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
   </div>
 </section>
@@ -824,50 +791,6 @@ footer{padding:30px 16px;text-align:center;color:var(--text-secondary);font-size
   triggerNext();
 })();
 
-// Carousel arrow navigation click actions
-(function(){
-  var carousel = document.getElementById('carousel');
-  var leftBtn = document.getElementById('slideLeft');
-  var rightBtn = document.getElementById('slideRight');
-  if(carousel && leftBtn && rightBtn) {
-    var slides = carousel.querySelectorAll('.slide');
-    var index = 0;
-    
-    function scrollToSlide(newIndex) {
-      if(newIndex < 0 || newIndex >= slides.length) return;
-      index = newIndex;
-      var slideWidth = slides[0].offsetWidth;
-      var gap = 18; // gap defined in CSS
-      var scrollPos = index * (slideWidth + gap);
-      carousel.scrollTo({ left: scrollPos, behavior: 'smooth' });
-    }
-    
-    leftBtn.addEventListener('click', function(){
-      if(index > 0) {
-        scrollToSlide(index - 1);
-      } else {
-        scrollToSlide(slides.length - 1); // wrap to end
-      }
-    });
-    
-    rightBtn.addEventListener('click', function(){
-      if(index < slides.length - 1) {
-        scrollToSlide(index + 1);
-      } else {
-        scrollToSlide(0); // wrap to beginning
-      }
-    });
-    
-    // Update local index on manual touch swipe scroll
-    carousel.addEventListener('scroll', function() {
-      var slideWidth = slides[0].offsetWidth;
-      var gap = 18;
-      if(slideWidth > 0) {
-        index = Math.round(carousel.scrollLeft / (slideWidth + gap));
-      }
-    });
-  }
-})();
 
 // Ensure window.location.search is appended to all checkout links targeting pay.hotmart.com
 (function(){
